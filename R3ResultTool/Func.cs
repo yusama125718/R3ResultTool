@@ -82,7 +82,7 @@ namespace R3ResultTool
         public async Task<bool> SendDataAsync(JObject data)
         {
             JObject value = new JObject();
-            value["api-key"] = ConfigurationManager.AppSettings["api-key"];
+            value["api_key"] = ConfigurationManager.AppSettings["api-key"];
             value["name_a1"] = data["XDR3_DBG_RESULT"]["name_a1"];
             value["name_a2"] = data["XDR3_DBG_RESULT"]["name_a2"];
             value["name_b1"] = data["XDR3_DBG_RESULT"]["name_b1"];
