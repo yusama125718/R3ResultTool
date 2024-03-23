@@ -83,18 +83,18 @@ namespace R3ResultTool
         {
             JObject value = new JObject();
             value["api_key"] = ConfigurationManager.AppSettings["api-key"];
-            value["name_a1"] = data["XDR3_DBG_RESULT"]["name_a1"];
-            value["name_a2"] = data["XDR3_DBG_RESULT"]["name_a2"];
-            value["name_b1"] = data["XDR3_DBG_RESULT"]["name_b1"];
-            value["name_b2"] = data["XDR3_DBG_RESULT"]["name_b2"];
-            value["score_a"] = data["XDR3_DBG_RESULT"]["score_a"];
-            value["score_b"] = data["XDR3_DBG_RESULT"]["score_b"];
+            value["name_a1"] = data["XDR3_DBG_RESULT"]["player_a1"]["name"];
+            value["name_a2"] = data["XDR3_DBG_RESULT"]["player_a2"]["name"];
+            value["name_b1"] = data["XDR3_DBG_RESULT"]["player_b1"]["name"];
+            value["name_b2"] = data["XDR3_DBG_RESULT"]["player_b2"]["name"];
+            value["score_a"] = data["XDR3_DBG_RESULT"]["score"]["a"];
+            value["score_b"] = data["XDR3_DBG_RESULT"]["score"]["b"];
             value["guid"] = data["XDR3_DBG_RESULT"]["guid"];
-            value["hopping_allowed"] = data["XDR3_DBG_RESULT"]["hopping_allowed"];
-            value["game_double"] = data["XDR3_DBG_RESULT"]["game_double"];
-            value["game_ex_speed"] = data["XDR3_DBG_RESULT"]["game_ex_speed"];
-            value["game_boundaries"] = data["XDR3_DBG_RESULT"]["game_boundaries"]; 
-            value["score_max"] = data["XDR3_DBG_RESULT"]["score_max"];
+            value["hopping_allowed"] = data["XDR3_DBG_RESULT"]["settings"]["hopping_allowed"];
+            value["game_double"] = data["XDR3_DBG_RESULT"]["settings"]["double"];
+            value["game_ex_speed"] = data["XDR3_DBG_RESULT"]["settings"]["ex_speed"];
+            value["game_boundaries"] = data["XDR3_DBG_RESULT"]["settings"]["boundaries"]; 
+            value["score_max"] = data["XDR3_DBG_RESULT"]["score"]["max"];
             try
             {
                 var content = new StringContent(value.ToString(), Encoding.UTF8, "application/json");
