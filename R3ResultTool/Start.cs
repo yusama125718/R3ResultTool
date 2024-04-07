@@ -28,6 +28,7 @@ namespace R3ResultTool
             }
             else
             {
+                Console.WriteLine("次のファイルを監視中1" + log);
                 Timer timer = new Timer();
                 timer.TimerStart(log);
             }

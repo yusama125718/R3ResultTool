@@ -33,7 +33,7 @@ namespace R3ResultTool
                 JObject data = func.ConvertLog(line);
                 try
                 {
-                    _ = func.SendDataAsync(data);
+                    _ = func.SendData(data);
                 }
                 catch (Exception ex)
                 {

@@ -7,12 +7,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Xml.Linq;
+using System.Runtime.Remoting.Contexts;
 
 namespace R3ResultTool
 {
     internal class Func
     {
         private static HttpClient client = new HttpClient();
+        private static Logger log = Logger.GetInstance();
         readonly string apiurl = ConfigurationManager.AppSettings["apiurl"];
 
         public string GetLine(String filepath)
@@ -79,7 +81,7 @@ namespace R3ResultTool
             return json;
         }
 
-        public async Task<bool> SendDataAsync(JObject data)
+        public bool SendData(JObject data)
         {
             JObject value = new JObject();
             value["api_key"] = ConfigurationManager.AppSettings["api-key"];
@@ -93,13 +95,30 @@ namespace R3ResultTool
             value["hopping_allowed"] = data["XDR3_DBG_RESULT"]["settings"]["hopping_allowed"];
             value["game_double"] = data["XDR3_DBG_RESULT"]["settings"]["double"];
             value["game_ex_speed"] = data["XDR3_DBG_RESULT"]["settings"]["ex_speed"];
-            value["game_boundaries"] = data["XDR3_DBG_RESULT"]["settings"]["boundaries"]; 
+            value["game_boundaries"] = data["XDR3_DBG_RESULT"]["settings"]["boundaries"];
             value["score_max"] = data["XDR3_DBG_RESULT"]["score"]["max"];
             try
             {
                 var content = new StringContent(value.ToString(), Encoding.UTF8, "application/json");
                 var res = client.PostAsync(apiurl, content);
                 Console.WriteLine("送信しました");
+                JObject res_json = JObject.Parse(res.Result.Content.ReadAsStringAsync().Result);
+                if (res_json["status"].Equals("success"))
+                {
+                    log.Info("================================================================================");
+                    log.Info(res_json["status"].ToString());
+                    log.Info(res_json["result"].ToString());
+                    log.Info(value.ToString());    
+                }
+                else
+                {
+                    log.Info("================================================================================");
+                    Console.WriteLine("保存に失敗しました");
+                    log.Warn(res_json["status"].ToString());
+                    log.Warn(res_json["result"].ToString());
+                    log.Warn(value.ToString());
+                }
+                
             }
             catch (Exception ex)
             {
