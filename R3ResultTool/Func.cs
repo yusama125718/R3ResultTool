@@ -58,7 +58,7 @@ namespace R3ResultTool
                             var sr = new System.IO.StreamReader(fs, Encoding.UTF8);
                             fs.Seek(k + 3, SeekOrigin.Current);
                             string line = sr.ReadLine();
-                            if (line != null && line.Contains("XDR3_DBG_RESULT"))
+                            if (line != null && line.Contains("XDR3_LOG"))
                             {
                                 // XrossDiscのリザルトログだった場合
                                 return line;
@@ -83,20 +83,22 @@ namespace R3ResultTool
 
         public bool SendData(JObject data)
         {
+            if (!data["XDR3_LOG"]["msg"].Equals("End")) return true;
             JObject value = new JObject();
             value["api_key"] = ConfigurationManager.AppSettings["api-key"];
-            value["name_a1"] = data["XDR3_DBG_RESULT"]["player_a1"]["name"];
-            value["name_a2"] = data["XDR3_DBG_RESULT"]["player_a2"]["name"];
-            value["name_b1"] = data["XDR3_DBG_RESULT"]["player_b1"]["name"];
-            value["name_b2"] = data["XDR3_DBG_RESULT"]["player_b2"]["name"];
-            value["score_a"] = data["XDR3_DBG_RESULT"]["score"]["a"];
-            value["score_b"] = data["XDR3_DBG_RESULT"]["score"]["b"];
-            value["guid"] = data["XDR3_DBG_RESULT"]["guid"];
-            value["hopping_allowed"] = data["XDR3_DBG_RESULT"]["settings"]["hopping_allowed"];
-            value["game_double"] = data["XDR3_DBG_RESULT"]["settings"]["double"];
-            value["game_ex_speed"] = data["XDR3_DBG_RESULT"]["settings"]["ex_speed"];
-            value["game_boundaries"] = data["XDR3_DBG_RESULT"]["settings"]["boundaries"];
-            value["score_max"] = data["XDR3_DBG_RESULT"]["score"]["max"];
+            value["name_a1"] = data["XDR3_LOG"]["player_a1"]["name"];
+            value["name_a2"] = data["XDR3_LOG"]["player_a2"]["name"];
+            value["name_b1"] = data["XDR3_LOG"]["player_b1"]["name"];
+            value["name_b2"] = data["XDR3_LOG"]["player_b2"]["name"];
+            value["score_a"] = data["XDR3_LOG"]["score"]["a"];
+            value["score_b"] = data["XDR3_LOG"]["score"]["b"];
+            value["guid"] = data["XDR3_LOG"]["guid"];
+            value["hopping_allowed"] = data["XDR3_LOG"]["settings"]["hopping_allowed"];
+            value["game_double"] = data["XDR3_LOG"]["settings"]["double"];
+            value["game_ex_speed"] = data["XDR3_LOG"]["settings"]["ex_speed"];
+            value["game_boundaries"] = data["XDR3_LOG"]["settings"]["boundaries"];
+            value["score_max"] = data["XDR3_LOG"]["score"]["max"];
+            value["dma"] = data["XDR3_LOG"]["settings"]["dma"];
             try
             {
                 var content = new StringContent(value.ToString(), Encoding.UTF8, "application/json");
